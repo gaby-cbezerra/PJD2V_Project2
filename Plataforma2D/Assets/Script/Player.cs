@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     private Transform _transform;
     private Rigidbody2D _rigidbody2D;
+    private Animator animator;
     
     public float velocidade = 10f;
     public float forcaPulo = 10f;
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
     {
         _transform = gameObject.transform;
         _rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        animator = gameObject.GetComponent<Animator>();
     }
 
     
@@ -45,13 +47,23 @@ public class Player : MonoBehaviour
         if(Input.GetKey(KeyCode.LeftArrow))
         {
             _transform.position -= new Vector3(velocidade*Time.deltaTime,0,0);
+            _transform.rotation = Quaternion.Euler(0, 0, 0);
+            animator.SetInteger("Transition", 1);
            Debug.Log("LeftArrow");
         }
-
-        if(Input.GetKey(KeyCode.RightArrow))
+        
+   
+        else if(Input.GetKey(KeyCode.RightArrow))
         {
            _transform.position += new Vector3(velocidade*Time.deltaTime,0,0);
+           _transform.rotation = Quaternion.Euler(0, 180, 0);
+           animator.SetInteger("Transition", 1);
            Debug.Log("RightArrow");
+        }
+        
+        else
+        {
+            animator.SetInteger("Transition", 0);
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && noChao == true)
